@@ -23,7 +23,7 @@ Created on Sun Jan 15 17:42:12 2023
 class Aircraft:
     
     def __init__(self, _identifier, _position, _velocity, _target):
-        self.id = identifier
+        self.id = _identifier
         # Do we want the co - ords in the init ? Or method for the generation?)
         self.position = _position #[x,y,z] (n,3) shape, n timesteps
         self.velocity = _velocity
