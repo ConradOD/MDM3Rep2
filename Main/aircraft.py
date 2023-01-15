@@ -30,8 +30,8 @@ class Aircraft:
         self.end_point = _end_point
         
 
-    def generate_known_path(self,max_t,delta_t):
-        num_t_steps = int(max_t / delta_t)
+    def generate_known_path(self,delta_t,num_t_steps):
+
         for t in range(num_t_steps-1):
             self.position[t] = self.position[t-1] + self.velocity[t-1] * delta_t
 

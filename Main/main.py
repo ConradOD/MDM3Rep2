@@ -10,12 +10,28 @@ import risk
 num_planes = 4
 grid_size = 10
 
+delta_t = 0.5
+max_t = 100
+num_t_steps = int(max_t / delta_t)
+
 
 #Make initial scenario....
 [initial_positions, initial_velocities, end_points] = initial_scenario.generate_scenario(num_planes,grid_size)
 
 #Random initial pos and direction etc
 #Random start & end points
+
+#Initialise aircraft objects in dict
+aircraft_dict = {}
+for i in range(num_planes):
+
+    pos_array = np.zeros((num_t_steps,3))
+    pos_array[0,:] = initial_positions[i,:]
+
+    vel_array = np.zeros((num_t_steps,3))
+    vel_array[0,:] = initial_velocities[i,:]
+
+    aircraft_dict[i] = aircraft.Aircraft(i,pos_array,vel_array,end_points[i,:])
 
 
 #Generate "known" paths from initial scenario
