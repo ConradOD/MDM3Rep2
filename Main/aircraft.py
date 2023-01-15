@@ -22,22 +22,26 @@ Created on Sun Jan 15 17:42:12 2023
 
 class Aircraft:
     
-    def __init__(self, _identifier, _position, _velocity, _target):
+    def __init__(self, _identifier, _position, _velocity, _end_point):
         self.id = _identifier
         # Do we want the co - ords in the init ? Or method for the generation?)
         self.position = _position #[x,y,z] (n,3) shape, n timesteps
         self.velocity = _velocity
-        self.target = _target
+        self.end_point = _end_point
         
+
+    def generate_known_path(self,max_t,delta_t):
+        num_t_steps = int(max_t / delta_t)
+        for t in range(num_t_steps-1):
+            self.position[t] = self.position[t-1] + self.velocity[t-1] * delta_t
 
 
     def route_gen_method(self,):
-
+        pass
     
     def update_position(self,delta_t):
-      for i in range 3:
-        self.current_position[i] += self.current_velocity[i] * delta_t
-        self.position[t,:] = self.position[t-1] + self.velocity[t-1] * delta_t
+        pass
+        #self.position[t,:] = self.position[t-1] + self.velocity[t-1] * delta_t
 
         
     
