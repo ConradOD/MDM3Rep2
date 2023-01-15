@@ -36,11 +36,14 @@ for i in range(num_planes):
     #Generate "known" paths from initial scenario
     aircraft_dict[i].generate_known_path(delta_t,num_t_steps)
 
-print(aircraft_dict[1].position)
+#print(aircraft_dict[1].position)
+
+
 #Calculate known risk from paths
+known_risk = risk.calc_known_risk(aircraft_dict)
 
 
 #Calculate unknown risk from 
-
+unknown_risk = risk.calc_unknown_risk(aircraft_dict)
 
 #Compare or something
