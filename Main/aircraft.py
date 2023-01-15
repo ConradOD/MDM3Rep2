@@ -32,8 +32,9 @@ class Aircraft:
 
     def generate_known_path(self,delta_t,num_t_steps):
 
-        for t in range(num_t_steps-1):
+        for t in range(1,num_t_steps):
             self.position[t] = self.position[t-1] + self.velocity[t-1] * delta_t
+            self.velocity[t] = self.velocity[t-1]
 
 
     def route_gen_method(self,):
