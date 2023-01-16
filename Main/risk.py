@@ -6,7 +6,6 @@ def calc_known_risk(Scenario, num_random_paths):
     for i in range(num_random_paths):
         Scenario.generate_random_path()
         num_crashed[i] = Scenario.calc_no_crashes()
-    print(num_crashed)
     #Normalise regarding num_planes and grid_size etc.
     known_risk = np.mean(num_crashed)
     return known_risk

@@ -8,16 +8,18 @@ import metrics
 
 
 #Variables
-num_aircraft = 10
+num_aircraft = 4
 grid_size = 10
 
 delta_t = 0.5
-max_t = 100
+max_t = 10
 num_t_steps = int(max_t / delta_t)
 
-num_random_paths = 10
+num_random_paths = 5
 
 num_scenarios = 5  #Num times repeated (different random scenario each time)
+
+separation_threshold = 5 #distance below which counts as loss of separation.
 
 
 #Variables for storing output on each iteration
@@ -30,7 +32,7 @@ data = pd.DataFrame([])
 #"Make data"
 for index in range(num_scenarios):
     #make scenario
-    scenario_object = scenario.Scenario(num_aircraft, num_t_steps, grid_size, delta_t)
+    scenario_object = scenario.Scenario(num_aircraft, num_t_steps, grid_size, delta_t, separation_threshold)
 
     #Initialise metrics
     metric_object = metrics.Metrics(scenario_object)
