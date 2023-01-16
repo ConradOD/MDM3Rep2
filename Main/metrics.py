@@ -1,11 +1,12 @@
 import numpy as np
 
+class Metrics:
+    def __init__(self,Scenario):
+        self.metrics_dict = {}
+        self.scenario = Scenario
 
-def calc_all_metrics(Scenario):
-    #Just use initial conditions of scenario
-    metrics = np.zeros(1)
-    return metrics
+        self.calc_avg_distances()
+        #Repeat for all metrics
 
-    
-def calc_avg_dist_between_aircraft(Scenario):
-    return 0
+    def calc_avg_dist_between_aircraft():
+        
