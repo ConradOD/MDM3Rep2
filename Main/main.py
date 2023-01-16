@@ -5,7 +5,7 @@ import scenario
 import aircraft
 import risk
 import metrics
-
+from sklearn.model_selection import train_test_split
 
 #Variables
 num_aircraft = 4
@@ -46,8 +46,9 @@ for index in range(num_scenarios):
     data.loc[index,'avg_crashed'] = risk.calc_known_risk(scenario_object,num_random_paths)  #Equivalent to known risk
 
 #Split data
-train_data = 0#do this
-test_data = 0#do this
+X = data.iloc[:,:-1]
+y = data.iloc[:,-1]
+X_train,X_test,Y_train,Y_test = train_test_split(X,y)
 
 print(data.head())
 
