@@ -48,12 +48,20 @@ for index in range(num_scenarios):
 #Split data
 X = data.iloc[:,:-1]
 y = data.iloc[:,-1]
-X_train,X_test,Y_train,Y_test = train_test_split(X,y)
+X_train,X_test,Y_train,Y_test = train_test_split(X,y,test_size=0.2,random_state=0)
 
-print(data.head())
+print(X_train)
+print(X_test)
 
 #Train model
-
+from sklearn.linear_model import LinearRegression
+classifier = LinearRegression()
+from sklearn.metrics import classification_report, confusion_matrix,accuracy_score
+classifier.fit(X_train,Y_train)
+# classification_report()
+y_pred = classifier.predict(X_test)
+conf_matr = confusion_matrix(Y_test,y_pred)
+print(conf_matr)
 
 
 #Test model
