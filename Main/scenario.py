@@ -1,5 +1,6 @@
 import numpy as np
 import aircraft
+import metrics
 
 class Scenario:
     def __init__(self,_num_aircraft,_num_t_steps,_grid_size,_delta_t):
@@ -42,5 +43,21 @@ class Scenario:
 
     def calc_no_crashes(self):
         #From a random evolution of the initial scenario, work out the total number of crashes that occur(ed)
-        #print(self.aircraft_dict[1].random_path_position)
-        pass
+
+        separation_threshold = 5 #distance below which counts as loss of separation.
+
+        #Matrix to store if each pair of aircraft crashed during the evolution
+        #should be1 if pair of aircraft crashed, 0 else
+        crashed_matrix = np.zeros((self.num_aircraft,self.num_aircraft))
+
+        #Calculate pairwise distance between planes at each timestep.
+        for timestep in range(self.num_t_steps):
+            #Extract position of each aircraft at timestep
+            position_list = np.zeros((self.num_aircraft,3))
+            for i in range(self.num_aircraft):
+                position_list[i,:] = self.aircraft_dict[i].random_path_position[timestep,:]
+
+            distance_matrix = metrics.calc_pairwise_distance_matrix(position_list) 
+            crashed_matrix[np.where((distance_matrix<separation_threshold) & (distance_matrix != 0),1,0)] = 1
+
+        return np.sum(crashed_matrix)

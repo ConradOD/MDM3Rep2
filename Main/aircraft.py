@@ -41,7 +41,7 @@ class Aircraft:
 
         #Iterate through the time steps and solve the dynamics
         for t in range(1,num_t_steps):
-            self.random_path_position[t] = self.random_path_position[t-1] + self.random_path_velocity[t-1] * delta_t
+            self.random_path_position[t] = self.random_path_position[t-1] + self.random_path_velocity[t-1] * delta_t + np.random.uniform(-1,1,3)*10
             self.random_path_velocity[t] = self.random_path_velocity[t-1]
         
         #Outputs stored for later

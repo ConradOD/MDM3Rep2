@@ -8,16 +8,16 @@ import metrics
 
 
 #Variables
-num_aircraft = 4
+num_aircraft = 10
 grid_size = 10
 
 delta_t = 0.5
 max_t = 100
 num_t_steps = int(max_t / delta_t)
 
-num_random_paths = 3
+num_random_paths = 10
 
-num_scenarios = 2  #Num times repeated (different random scenario each time)
+num_scenarios = 5  #Num times repeated (different random scenario each time)
 
 
 #Variables for storing output on each iteration

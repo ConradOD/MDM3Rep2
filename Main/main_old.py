@@ -11,7 +11,7 @@ num_planes = 4
 grid_size = 10
 
 delta_t = 0.5
-max_t = 100
+max_t = 5
 num_t_steps = int(max_t / delta_t)
 
 num_scenarios = 1   #Num times repeated (different random scenario each time)
