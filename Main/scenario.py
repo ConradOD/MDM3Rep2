@@ -1,4 +1,6 @@
 import numpy as np
+
+
 def generate_scenario(num_planes,grid_size):
     '''
     '''

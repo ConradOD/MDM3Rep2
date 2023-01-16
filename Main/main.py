@@ -1,7 +1,7 @@
 import numpy as np
 
 #Import other files
-import initial_scenario
+import scenario
 import aircraft
 import risk
 
@@ -23,7 +23,7 @@ unknown_risk = np.zeros(num_scenarios)
 for index in range(num_scenarios):
 
     #Make initial scenario....
-    [initial_positions, initial_velocities, end_points] = initial_scenario.generate_scenario(num_planes,grid_size)
+    [initial_positions, initial_velocities, end_points] = scenario.generate_scenario(num_planes,grid_size)
 
     #Random initial pos and direction etc
     #Random start & end points
