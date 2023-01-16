@@ -1,9 +1,9 @@
 import numpy as np
 
 class Metrics:
-    def __init__(self,Scenario):
+    def __init__(self,_Scenario):
         self.metrics_dict = {}
-        self.scenario = Scenario
+        self.Scenario = _Scenario
 
         self.calc_avg_dist_between_aircraft()
         #Repeat for all metrics

@@ -50,5 +50,5 @@ class Scenario:
 
 
     def generate_random_path(self):
-        for key,aircraft in self.aircraft_dict.items:
+        for key,aircraft in self.aircraft_dict.items():
             aircraft.make_random_path()

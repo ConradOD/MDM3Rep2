@@ -32,18 +32,18 @@ for index in range(num_scenarios):
 
     #Initialise metrics
     metric_object = metrics.Metrics(scenario_object)
-
-    for name,val in metric_object.metrics_dict:
-        data[index,name] = val
+    for name,val in metric_object.metrics_dict.items():
+        data.loc[index,name] = val
     #calc_all_metrics calls all the different metrics functions and dict with key and value for all metrics
 
-    data[index,'avg_crash'] = risk.calc_known_risk(scenario_object,num_random_paths) #"Known risk"
+    #data[index,'avg_crash'] = risk.calc_known_risk(scenario_object,num_random_paths) #"Known risk"
 
 
 #Split data
 train_data = 0#do this
 test_data = 0#do this
 
+print(data.head())
 
 #Train model
 
