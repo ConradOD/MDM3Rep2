@@ -27,24 +27,24 @@ class Aircraft:
     def __init__(self, _identifier, _position, _velocity, _end_point):
         self.id = _identifier
         # Do we want the co - ords in the init ? Or method for the generation?)
-        self.position = _position #[x,y,z] (n,3) shape, n timesteps
-        self.velocity = _velocity
-        self.end_point = _end_point
-        
+        self.position = _position #[x,y,z] initial pos
+        self.velocity = _velocity #[x,y,z] intial vel
+        self.end_point = _end_point #[x,y,z]
 
     def make_random_path(self,delta_t,num_t_steps):
-        position = np.zeros((num_t_steps,3))
+        self.random_path_position = np.zeros((num_t_steps,3))
+        self.random_path_velocity = np.zeros((num_t_steps,3))
+
+        #Set inital coord according to initial pos & vel of aircraft
+        self.random_path_position[0,:] = self.position
+        self.random_path_velocity[0,:] = self.velocity
+
+        #Iterate through the time steps and solve the dynamics
         for t in range(1,num_t_steps):
-            self.position[t] = self.position[t-1] + self.velocity[t-1] * delta_t
-            self.velocity[t] = self.velocity[t-1]
-
-
-    def route_gen_method(self,):
-        pass
-    
-    def update_position(self,delta_t):
-        pass
-        #self.position[t,:] = self.position[t-1] + self.velocity[t-1] * delta_t
+            self.random_path_position[t] = self.random_path_position[t-1] + self.random_path_velocity[t-1] * delta_t
+            self.random_path_velocity[t] = self.random_path_velocity[t-1]
+        
+        #Outputs stored for later
 
         
     

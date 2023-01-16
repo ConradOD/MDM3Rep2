@@ -2,6 +2,7 @@ import numpy as np
 import scenario
 
 def calc_known_risk(Scenario, num_random_paths):
+    print("Calc_known_risk section")
     num_crashed = np.zeros(num_random_paths)
     for i in range(num_random_paths):
         Scenario.generate_random_path()

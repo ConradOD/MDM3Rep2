@@ -21,7 +21,7 @@ class Metrics:
                 
                 #Aircraft object contains its own position
                 #We use this calculate the distance between 2 aircraft
-                print(aircraft_i.position[0,:])
+                
                 distance = np.linalg.norm(aircraft_i.position - aircraft_j.position)
                 pairwise_distance[i,j] = distance
 

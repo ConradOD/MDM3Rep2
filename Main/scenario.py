@@ -24,14 +24,14 @@ class Scenario:
     def make_aircraft_dict(self):
         out = {}
         for i in range(self.num_aircraft):
-            #Generate arrays for initialising the Aircraft objects.=
-            pos_array = np.zeros((self.num_t_steps,3))
-            pos_array[0,:] = self.initial_positions[i,:]
-            vel_array = np.zeros((self.num_t_steps,3))
-            vel_array[0,:] = self.initial_velocities[i,:]
+            #Generate arrays for initialising the Aircraft objects.
+            # pos_array = np.zeros((self.num_t_steps,3))
+            # pos_array[0,:] = self.initial_positions[i,:]
+            # vel_array = np.zeros((self.num_t_steps,3))
+            # vel_array[0,:] = self.initial_velocities[i,:]
 
             #Call Aircraft class and stores instances in dict
-            out[i] = aircraft.Aircraft(i,pos_array,vel_array,self.end_points[i,:])
+            out[i] = aircraft.Aircraft(i,self.initial_positions[i,:],self.initial_velocities[i,:],self.end_points[i,:])
 
         return out
 
@@ -42,4 +42,5 @@ class Scenario:
 
     def calc_no_crashes(self):
         #From a random evolution of the initial scenario, work out the total number of crashes that occur(ed)
+        #print(self.aircraft_dict[1].random_path_position)
         pass
