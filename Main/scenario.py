@@ -27,11 +27,9 @@ class Scenario:
         '''
 
     def generate_scenario(self):
-        '''
-        '''
 
         initial_positions = np.random.rand(self.num_aircraft,3) * self.grid_size
-        initial_velocities = np.random.rand(self.num_aircraft,3)
+        initial_velocities = np.random.rand(self.num_aircraft,3)  #Should be in direction of (end_point - initial_point)
         end_points = np.random.rand(self.num_aircraft,3) * self.grid_size
 
         return [initial_positions, initial_velocities, end_points]
@@ -51,5 +49,6 @@ class Scenario:
         return out
 
 
-    def generate_random_path(self,):
-        pass
+    def generate_random_path(self):
+        for key,aircraft in self.aircraft_dict.items:
+            aircraft.make_random_path()
