@@ -9,6 +9,11 @@ class Scenario:
         [self.initial_positions,self.initial_velocities,self.end_points] = self.generate_scenario()
         self.aircraft_dict = self.make_aircraft_dict()
 
+
+        #Generate random paths
+        self.current_path = None
+
+
         pass
         '''
         Input vars like num_planes, delta_t etc

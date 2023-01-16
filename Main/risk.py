@@ -1,6 +1,13 @@
-def calc_known_risk(aircraft_dict):
-    #Placeholder - needs doing
-    known_risk = 0
+import scenario
+
+def calc_known_risk(Scenario, num_random_paths):
+    crashed = []
+    for i in range(num_random_paths):
+        Scenario.make_path()
+        crashed[i] = scenario.calc_crashed()
+
+    #Normalise regarding num_planes and grid_size etc.
+    known_risk = mean(crashed)
     return known_risk
 
 
