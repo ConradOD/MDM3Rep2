@@ -21,9 +21,31 @@ class Metrics:
                 
                 #Aircraft object contains its own position
                 #We use this calculate the distance between 2 aircraft
+                print(aircraft_i.position[0,:])
                 distance = np.linalg.norm(aircraft_i.position - aircraft_j.position)
                 pairwise_distance[i,j] = distance
 
         #The metric is stored in the Metrics object dictionary (accessed by main.py)
         self.metrics_dict['avg_pw_dist'] = np.mean(pairwise_distance)
             
+
+
+
+def calc_pairwise_distance_matrix(aircraft_positions):
+    #For input data structure of aircraft positions (list of vectors)
+    #Return output matrix of distance between aircraft i & j
+    #As symmetrical about leading diagonal (and diagonal is 0), only upper triangle is calced
+
+    num_aircraft = len(aircraft_positions)
+
+    out = np.zeros((num_aircraft,num_aircraft))
+    for i in range(num_aircraft):
+        for j in range(i+1,num_aircraft):
+            pos_i = aircraft_positions[i]
+            pos_j = aircraft_positions[j]
+
+            distance = np.linalg.norm(pos_i - pos_j)
+
+            out[i,j] = distance
+
+    return out

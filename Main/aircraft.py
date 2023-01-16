@@ -20,6 +20,8 @@ Created on Sun Jan 15 17:42:12 2023
 @author: conradodriscoll
 """
 
+import numpy as np
+
 class Aircraft:
     
     def __init__(self, _identifier, _position, _velocity, _end_point):
@@ -30,8 +32,8 @@ class Aircraft:
         self.end_point = _end_point
         
 
-    def generate_known_path(self,delta_t,num_t_steps):
-
+    def make_random_path(self,delta_t,num_t_steps):
+        position = np.zeros((num_t_steps,3))
         for t in range(1,num_t_steps):
             self.position[t] = self.position[t-1] + self.velocity[t-1] * delta_t
             self.velocity[t] = self.velocity[t-1]

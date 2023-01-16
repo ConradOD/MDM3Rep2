@@ -2,29 +2,16 @@ import numpy as np
 import aircraft
 
 class Scenario:
-    def __init__(self,_num_aircraft,_num_t_steps,_grid_size):
+    def __init__(self,_num_aircraft,_num_t_steps,_grid_size,_delta_t):
         self.num_aircraft = _num_aircraft
         self.num_t_steps = _num_t_steps
         self.grid_size = _grid_size
+        self.delta_t = _delta_t
         [self.initial_positions,self.initial_velocities,self.end_points] = self.generate_scenario()
         self.aircraft_dict = self.make_aircraft_dict()
 
-
         #Generate random paths
         self.current_path = None
-
-
-        pass
-        '''
-        Input vars like num_planes, delta_t etc
-        What attrs do we need?
-        Could have:
-        List/dict of plane objects
-        Different no. of crashed on paths
-        Avg no. crashed across paths
-
-        How to handle different random paths?
-        '''
 
     def generate_scenario(self):
 
@@ -48,7 +35,11 @@ class Scenario:
 
         return out
 
-
     def generate_random_path(self):
         for key,aircraft in self.aircraft_dict.items():
-            aircraft.make_random_path()
+            aircraft.make_random_path(self.delta_t,self.num_t_steps)
+
+
+    def calc_no_crashes(self):
+        #From a random evolution of the initial scenario, work out the total number of crashes that occur(ed)
+        pass
