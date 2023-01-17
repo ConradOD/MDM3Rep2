@@ -17,7 +17,7 @@ num_t_steps = int(max_t / delta_t)
 
 num_random_paths = 5
 
-num_scenarios = 5  #Num times repeated (different random scenario each time)
+num_scenarios = 20  #Num times repeated (different random scenario each time)
 
 separation_threshold = 5 #distance below which counts as loss of separation.
 
@@ -44,24 +44,33 @@ for index in range(num_scenarios):
 
 
     data.loc[index,'avg_crashed'] = risk.calc_known_risk(scenario_object,num_random_paths)  #Equivalent to known risk
+print(data.head())
 
 #Split data
 X = data.iloc[:,:-1]
 y = data.iloc[:,-1]
-X_train,X_test,Y_train,Y_test = train_test_split(X,y,test_size=0.2,random_state=0)
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=0)
 
-print(X_train)
-print(X_test)
 
 #Train model
 from sklearn.linear_model import LinearRegression
-classifier = LinearRegression()
-from sklearn.metrics import classification_report, confusion_matrix,accuracy_score
-classifier.fit(X_train,Y_train)
+model = LinearRegression()
+from sklearn.metrics import mean_squared_error, r2_score
+model.fit(X_train,y_train)
 # classification_report()
-y_pred = classifier.predict(X_test)
-conf_matr = confusion_matrix(Y_test,y_pred)
-print(conf_matr)
+# y_pred = classifier.predict(X_test)
+# conf_matr = confusion_matrix(Y_test,y_pred)
+# print(conf_matr)
+
+#Predict using the trained model
+y_pred = model.predict(X_test)
+
+#Coefficients of model
+print("Coefficients: \n", model.coef_)
+#The mean squared error for predictions
+print("Mean squared error: %.2f" % mean_squared_error(y_test,y_pred))
+#The coefficient of determination: 1 is perfect prediction
+print("Coefficient of determination: %.2f" % r2_score(y_test, y_pred))
 
 
 #Test model
