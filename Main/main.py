@@ -22,7 +22,9 @@ num_scenarios = 20  #Num times repeated (different random scenario each time)
 separation_threshold = 5 #Distance below which counts as loss of separation.
 
 #Dataframe for storing output
-data = pd.DataFrame([])
+metric_names = ['avg_pw_dist']  #Update this manually atm
+output_name = ['crashed']  #Name of output variable "y"
+data = pd.DataFrame(columns=metric_names+output_name)  #Initialising dataframe with column names
 
 #"Make data"
 for index in range(num_scenarios):
@@ -30,16 +32,17 @@ for index in range(num_scenarios):
     scenario_object = scenario.Scenario(num_aircraft, num_t_steps, grid_size, delta_t, separation_threshold)
 
     #Initialise metrics
-    metric_object = metrics.Metrics(scenario_object)
-    #This object calculates all the metrics for the scenario and stores them
+    metric_object = metrics.Metrics(scenario_object) #This object calculates all the metrics for the scenario and stores them
 
-    #Unpack the metrics into pandas dataframe
-    for name,val in metric_object.metrics_dict.items():
-        data.loc[index,name] = val
+    crashed_list = risk.calc_known_risk(scenario_object,num_random_paths)
 
-    data.loc[index,'avg_crashed'] = risk.calc_known_risk(scenario_object,num_random_paths)  #Equivalent to known risk
-print(data.head())
+    for entry in crashed_list:
+        new_row = metric_object.metrics_dict
+        new_row.update({'crashed':entry})
+        new_row = pd.Series(new_row)
+        data = pd.concat([data,new_row.to_frame(1).T])
 
+print(data.head(6))
 #Split data
 X = data.iloc[:,:-1]
 y = data.iloc[:,-1]
