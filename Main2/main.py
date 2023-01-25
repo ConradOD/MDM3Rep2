@@ -34,6 +34,31 @@ for scenario_index in range(Parameters.num_scenarios):
         # print(Metrics.data_row)
 
 print(data.head())
+import matplotlib.pyplot as plt
+#Setup 3d plotting (not sure if this is best way of doing it)
+ax = plt.figure().add_subplot(projection='3d')
+
+for key,plane in Scenario.aircraft_dict.items():
+    pos = plane.random_path_position
+    #For each plane plots line of trajectory
+    ax.plot(pos[:,0],pos[:,1],pos[:,2],label="Plane {id}".format(id = plane.id))
+    #Dot for start pos
+    ax.scatter(pos[0,0],pos[0,1],pos[0,2])
+
+ax.set_xlabel("x")
+ax.set_ylabel("y")
+ax.set_zlabel("z")
+
+#Bounding plot to grid size set
+#NOTE: planes might disappear off edge
+# ax.set_xlim(0,grid_size)
+# ax.set_ylim(0,grid_size)
+# ax.set_zlim(0,grid_size)
+
+ax.legend()
+plt.show()
+
+quit()
 
 
 #------------------Machine learning section-----------------------

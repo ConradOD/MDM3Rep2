@@ -25,7 +25,7 @@ class Scenario:
 
     def generate_random_evolution(self):
         for key,Aircraft in self.aircraft_dict.items():
-            Aircraft.make_random_path(self.Parameters)
+            Aircraft.make_random_path()
     
     def make_pair_list(self):
         self.aircraft_pair_list = [[x,y] for x in self.aircraft_ids for y in self.aircraft_ids if y>x]
