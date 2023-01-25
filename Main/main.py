@@ -43,6 +43,7 @@ for index in range(num_scenarios):
         data = pd.concat([data,new_row.to_frame(1).T])
 
 print(data.head(6))
+
 #Split data
 X = data.iloc[:,:-1]
 y = data.iloc[:,-1]
