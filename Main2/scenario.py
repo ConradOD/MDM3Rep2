@@ -11,15 +11,16 @@ class Scenario:
         self.make_pair_list()
 
     def generate_scenario(self):
-        self.initial_positions = np.random.rand(self.Parameters.num_aircraft,3) * self.Parameters.grid_size
-        self.initial_velocities = np.random.rand(self.Parameters.num_aircraft,3) * 5 #Should be in direction of (end_point - initial_point)
-        self.end_points = np.random.rand(self.Parameters.num_aircraft,3) * self.Parameters.grid_size
+        self.initial_positions = np.random.rand(self.Parameters.num_aircraft,3) * self.Parameters.grid_size + np.array([0,0,self.Parameters.vertical_offset]) 
+        self.direction = np.random.rand(self.Parameters.num_aircraft,3) * self.Parameters.velocity_mag
+        self.initial_velocities = (self.direction + np.random.rand(self.Parameters.num_aircraft,3) * self.Parameters.direction_variation) * self.Parameters.velocity_mag
+        self.initial_acceleration = np.zeros((self.Parameters.num_aircraft,3))
 
     def make_aircraft_dict(self):
         self.aircraft_dict = {}
         self.aircraft_ids = []
         for index in range(self.Parameters.num_aircraft):
-            self.aircraft_dict[index] = aircraft.Aircraft(index,self.initial_positions[index,:],self.initial_velocities[index,:],self.end_points[index,:])
+            self.aircraft_dict[index] = aircraft.Aircraft(self.Parameters,index,self.initial_positions[index,:],self.initial_velocities[index,:],self.direction[index,:],self.initial_acceleration[index,:])
             self.aircraft_ids.append(index)
 
     def generate_random_evolution(self):
