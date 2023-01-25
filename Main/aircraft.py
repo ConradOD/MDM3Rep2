@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-
 File containing the aircraft class.
 
 This class, as descirbed by the mindmap has the following properties and methods.
