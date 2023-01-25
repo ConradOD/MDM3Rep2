@@ -12,7 +12,7 @@ class Scenario:
 
     def generate_scenario(self):
         self.initial_positions = np.random.rand(self.Parameters.num_aircraft,3) * self.Parameters.grid_size + np.array([0,0,self.Parameters.vertical_offset]) 
-        self.direction = np.random.rand(self.Parameters.num_aircraft,3) * self.Parameters.velocity_mag
+        self.direction = np.random.uniform(-1,1,(self.Parameters.num_aircraft,3)) * self.Parameters.velocity_mag
         self.initial_velocities = (self.direction + np.random.rand(self.Parameters.num_aircraft,3) * self.Parameters.direction_variation) * self.Parameters.velocity_mag
         self.initial_acceleration = np.zeros((self.Parameters.num_aircraft,3))
 

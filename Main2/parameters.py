@@ -1,5 +1,5 @@
 class Parameters:
-    def __init__(self,num_aircraft=5,grid_size=100,delta_t=0.5,max_t=10,num_scenarios=50,separation_thresh_hor=5,separation_thresh_ver=5,vertical_offset=1000,velocity_mag=10,direction_variation=5,acceleration_rand = 1,correction_mag=1):
+    def __init__(self,num_aircraft=5,grid_size=1000,delta_t=0.5,max_t=10,num_scenarios=50,separation_thresh_hor=5,separation_thresh_ver=5,vertical_offset=1000,velocity_mag=10,direction_variation=5,acceleration_rand = 1,correction_mag=1):
         self.num_aircraft = num_aircraft
         self.grid_size = grid_size
         self.delta_t = delta_t

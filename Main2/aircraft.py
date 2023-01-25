@@ -21,9 +21,10 @@ class Aircraft:
         line_direction = self.direction
 
         shortest_direction = np.cross(point - (line_point + np.dot((point - line_point), line_direction) * line_direction), line_direction)
-        correction_vector = shortest_direction * self.Parameters.correction_mag
-        return correction_vector
-
+        if np.linalg.norm(shortest_direction) == 0:
+            return shortest_direction
+        else:
+            return shortest_direction / np.linalg.norm(shortest_direction) * self.Parameters.correction_mag
 
     def make_random_path(self):
         self.random_path_position = np.zeros((self.Parameters.num_t_steps,3))

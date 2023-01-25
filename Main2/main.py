@@ -58,8 +58,6 @@ ax.set_zlabel("z")
 ax.legend()
 plt.show()
 
-quit()
-
 
 #------------------Machine learning section-----------------------
 from sklearn.model_selection import train_test_split
