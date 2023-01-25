@@ -2,6 +2,8 @@ import numpy as np
 import aircraft
 import metrics
 
+
+
 class Scenario:
     def __init__(self,_num_aircraft,_num_t_steps,_grid_size,_delta_t,_separation_threshold):
         self.num_aircraft = _num_aircraft

@@ -10,8 +10,19 @@ class Aircraft:
         self.direction = _direction #[x,y,z]
         self.acceleration = _acceleration
 
-    def get_correction_acceleration(self):
-        return np.array([0,0,0])
+    def get_correction_acceleration(self, current_position, magnitude):
+        #point = np.array(point)
+        point = current_position
+        #line_point = np.array(line_point)
+        line_point = self.position
+
+        #line_direction = np.array(line_direction)
+        line_direction = self.direction
+
+        shortest_direction = np.cross(point - (line_point + np.dot((point - line_point), line_direction) * line_direction), line_direction)
+        correction_vector = shortest_direction * magnitude
+        return correction_vector
+
 
     def make_random_path(self,_Parameters):
         self.random_path_position = np.zeros((_Parameters.num_t_steps,3))
