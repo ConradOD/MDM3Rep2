@@ -8,7 +8,7 @@ class Metrics:
         self.aircraft_a = _aircraft_a
         self.aircraft_b = _aircraft_b
 
-        self.metric_names = ['distance']
+        self.metric_names = ['distance','yaw_diff','pitch_diff']
         self.output_name = ['crashed']
         self.columns = self.metric_names + self.output_name
         self.data_dict = {}
@@ -19,6 +19,8 @@ class Metrics:
     def calc_all_data(self):
         #Metrics
         self.metric_calc_distance()
+        self.metric_calc_pitch_difference()
+        self.metric_calc_yaw_difference()
         
 
         #Output variable
@@ -40,4 +42,19 @@ class Metrics:
 
     def metric_calc_distance(self):
         self.data_dict['distance'] = np.linalg.norm(self.aircraft_a.position - self.aircraft_b.position)
+
+    def metric_calc_pitch_difference(self):
+        d_a = self.aircraft_a.direction
+        d_b = self.aircraft_b.direction
+        pitch_a = np.arctan(d_a[2]/(np.sqrt(d_a[0]**2 + d_a[1]**2) ))
+        pitch_b = np.arctan(d_b[2]/(np.sqrt(d_b[0]**2 + d_b[1]**2) ))
+        self.data_dict['pitch_diff'] = abs(pitch_a - pitch_b)
+
+    def metric_calc_yaw_difference(self):
+        d_a = self.aircraft_a.direction
+        d_b = self.aircraft_b.direction
+        yaw_a = np.arctan(d_a[1]/(np.sqrt(d_a[0]**2 + d_a[2]**2) ))
+        yaw_b = np.arctan(d_b[1]/(np.sqrt(d_b[0]**2 + d_b[2]**2) ))
+        self.data_dict['yaw_diff'] = abs(yaw_a - yaw_b)
+
 
