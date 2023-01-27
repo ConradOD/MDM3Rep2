@@ -8,7 +8,7 @@ class Metrics:
         self.aircraft_a = _aircraft_a
         self.aircraft_b = _aircraft_b
 
-        self.metric_names = ['distance','yaw_diff','pitch_diff']
+        self.metric_names = ['distance','yaw_diff','pitch_diff','shortest_dist_timed','shortest_dist_path']
         self.output_name = ['crashed']
         self.columns = self.metric_names + self.output_name
         self.data_dict = {}
@@ -21,6 +21,8 @@ class Metrics:
         self.metric_calc_distance()
         self.metric_calc_pitch_difference()
         self.metric_calc_yaw_difference()
+        self.metric_shortest_distance_timedependent()
+        self.metric_shortest_distance_path()
         
 
         #Output variable
@@ -56,5 +58,19 @@ class Metrics:
         yaw_a = np.arctan(d_a[1]/(np.sqrt(d_a[0]**2 + d_a[2]**2) ))
         yaw_b = np.arctan(d_b[1]/(np.sqrt(d_b[0]**2 + d_b[2]**2) ))
         self.data_dict['yaw_diff'] = abs(yaw_a - yaw_b)
+
+    def metric_shortest_distance_timedependent(self):
+        pos_a = np.zeros((self.Parameters.num_t_steps,3))
+        pos_b = np.zeros((self.Parameters.num_t_steps,3))
+        pos_a[0,:] = self.aircraft_a.position
+        pos_b[0,:] = self.aircraft_b.position
+        for timestep in range(self.Parameters.num_t_steps-1):
+            pos_a[timestep+1,:] = pos_a[timestep,:] + self.aircraft_a.direction * self.Parameters.delta_t
+            pos_b[timestep+1,:] = pos_b[timestep,:] + self.aircraft_b.direction * self.Parameters.delta_t
+
+        dist_between = np.linalg.norm(pos_a - pos_b, axis=1)
+        self.data_dict['shortest_dist_timed'] = dist_between.min()
+
+    def metric_shortest_distance_path(self):
 
 
