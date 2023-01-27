@@ -72,5 +72,9 @@ class Metrics:
         self.data_dict['shortest_dist_timed'] = dist_between.min()
 
     def metric_shortest_distance_path(self):
+        normal_line = np.cross(self.aircraft_a.direction,self.aircraft_b.direction)
 
+        dist = abs(np.dot(normal_line, self.aircraft_a.position-self.aircraft_b.position)) / np.linalg.norm(normal_line)
+
+        self.data_dict['shortest_dist_path'] = dist
 
