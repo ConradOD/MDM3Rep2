@@ -24,20 +24,18 @@ for scenario_index in range(Parameters.num_scenarios):
     #Generate path that planes follow. Do planes follow the random path that's used for the output??
 
     #Generate output labels, for each pair  of planes
-    crashed_dict = output.calculate_output
+    Output = output.Output(Parameters,Scenario)
 
     #Perform the time evolution
-    for time in timesteps:
+    for timestep in range(Parameters.num_t_steps):
         #Set plane position according to timestep
+        Scenario.move_aircraft_along_path(timestep)
 
         #Calculate metrics for each pair of planes
-        for pair in Scenario.aircraft_pair_list:
-            aircraft_a = Scenario.aircraft_dict[pair[0]]
-            aircraft_b = Scenario.aircraft_dict[pair[1]]
-
+        for id,pair in Scenario.aircraft_pair_dict:
             #Calculate metrics
-            Metrics = metrics.Metrics(Parameters,aircraft_a,aircraft_b)
-            Metrics.calc_all_data()
+            Metrics = metrics.Metrics(Parameters,Scenario.aircraft_dict[pair[0]],Scenario.aircraft_dict[pair[1]])
+            Metrics.calc_all_metrics()
 
             #Store row in dataframe
             data = pd.concat([data,Metrics.data_out()])

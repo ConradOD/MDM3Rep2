@@ -9,8 +9,6 @@ class Metrics:
         self.aircraft_b = _aircraft_b
 
         self.metric_names = ['distance','yaw_diff','pitch_diff','shortest_dist_timed','shortest_dist_path']
-        self.output_name = ['crashed']
-        self.columns = self.metric_names + self.output_name
         self.data_dict = {}
 
     def data_out(self):
@@ -23,24 +21,6 @@ class Metrics:
         self.metric_calc_yaw_difference()
         self.metric_shortest_distance_timedependent()
         self.metric_shortest_distance_path()
-        
-
-        #Output variable
-        self.calc_output()
-
-    def calc_output(self):
-        crashed = 0
-        for timestep in range(self.Parameters.num_t_steps):
-            pos_a = self.aircraft_a.random_path_position[timestep,:]
-            pos_b = self.aircraft_b.random_path_position[timestep,:]
-
-            horizontal_dist = np.linalg.norm(pos_a[0:1] - pos_b[0:1])
-            vertical_dist = np.linalg.norm(pos_a[2] - pos_b[2])
-
-            if horizontal_dist <= self.Parameters.separation_thresh_hor or vertical_dist <= self.Parameters.separation_thresh_ver:
-                crashed = 1
-
-        self.data_dict['crashed'] = crashed
 
     def metric_calc_distance(self):
         self.data_dict['distance'] = np.linalg.norm(self.aircraft_a.position - self.aircraft_b.position)

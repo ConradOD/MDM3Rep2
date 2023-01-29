@@ -35,7 +35,7 @@ class Scenario:
             self.aircraft_pair_dict[pair_id] = pair
             pair_id += 1
 
-
-
-                       
+    def move_aircraft_along_path(self,timestep):
+        for id,aircraft in self.aircraft_dict.items():
+            aircraft.move_along_path(timestep)
 
