@@ -29,6 +29,12 @@ class Scenario:
     
     def make_pair_list(self):
         self.aircraft_pair_list = [[x,y] for x in self.aircraft_ids for y in self.aircraft_ids if y>x]
+        self.aircraft_pair_dict = {}
+        pair_id = 0
+        for pair in self.aircraft_pair_list:
+            self.aircraft_pair_dict[pair_id] = pair
+            pair_id += 1
+
 
 
                        

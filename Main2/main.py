@@ -5,6 +5,7 @@ import scenario
 import aircraft
 import metrics
 import parameters
+import output
 
 #Variables
 args = []
@@ -20,18 +21,28 @@ for scenario_index in range(Parameters.num_scenarios):
     #Generate scenario object
     Scenario = scenario.Scenario(Parameters)
 
-    #For each pair of aircraft
-    for pair in Scenario.aircraft_pair_list:
-        aircraft_a = Scenario.aircraft_dict[pair[0]]
-        aircraft_b = Scenario.aircraft_dict[pair[1]]
+    #Generate path that planes follow. Do planes follow the random path that's used for the output??
 
-        #Calculate metrics
-        Metrics = metrics.Metrics(Parameters,aircraft_a,aircraft_b)
-        Metrics.calc_all_data()
+    #Generate output labels, for each pair  of planes
+    crashed_dict = output.calculate_output
 
-        #Store row in dataframe
-        data = pd.concat([data,Metrics.data_out()])
-        # print(Metrics.data_row)
+    #Perform the time evolution
+    for time in timesteps:
+        #Set plane position according to timestep
+
+        #Calculate metrics for each pair of planes
+        for pair in Scenario.aircraft_pair_list:
+            aircraft_a = Scenario.aircraft_dict[pair[0]]
+            aircraft_b = Scenario.aircraft_dict[pair[1]]
+
+            #Calculate metrics
+            Metrics = metrics.Metrics(Parameters,aircraft_a,aircraft_b)
+            Metrics.calc_all_data()
+
+            #Store row in dataframe
+            data = pd.concat([data,Metrics.data_out()])
+            # print(Metrics.data_row)
+
 
 print(data.head())
 import matplotlib.pyplot as plt
