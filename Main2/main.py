@@ -11,10 +11,11 @@ import output
 args = []
 Parameters = parameters.Parameters()
 separation_threshold = 5 #Needs redoing
-
 #Initialise dataframe
 sample_metrics = metrics.Metrics(Parameters,None,None)
-data = pd.DataFrame(columns=sample_metrics.columns)
+sample_output = output.Output(Parameters,None)
+columns = ['scenario_id','pair_id'] + sample_metrics.metric_names + sample_output.output_name
+data = pd.DataFrame(columns=columns)
 
 #Gather data for each random scenario
 for scenario_index in range(Parameters.num_scenarios):
@@ -25,6 +26,7 @@ for scenario_index in range(Parameters.num_scenarios):
 
     #Generate output labels, for each pair  of planes
     Output = output.Output(Parameters,Scenario)
+    Output.make_crashed_dict()
 
     #Perform the time evolution
     for timestep in range(Parameters.num_t_steps):
@@ -32,17 +34,22 @@ for scenario_index in range(Parameters.num_scenarios):
         Scenario.move_aircraft_along_path(timestep)
 
         #Calculate metrics for each pair of planes
-        for id,pair in Scenario.aircraft_pair_dict:
+        for pair_id,pair in Scenario.aircraft_pair_dict.items():
             #Calculate metrics
             Metrics = metrics.Metrics(Parameters,Scenario.aircraft_dict[pair[0]],Scenario.aircraft_dict[pair[1]])
             Metrics.calc_all_metrics()
 
             #Store row in dataframe
-            data = pd.concat([data,Metrics.data_out()])
-            # print(Metrics.data_row)
+            row = {'scenario_id':scenario_index,'pair_id':pair_id}
+            row.update(Metrics.data_dict)
+            row.update({'crashed':Output.crashed_dict[pair_id]}) 
+            data = pd.concat([data,pd.Series(row).to_frame(1).T])
+
+            # pd.Series(self.data_dict).to_frame(1).T
 
 
 print(data.head())
+quit()
 import matplotlib.pyplot as plt
 #Setup 3d plotting (not sure if this is best way of doing it)
 ax = plt.figure().add_subplot(projection='3d')

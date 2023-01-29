@@ -14,8 +14,7 @@ class Metrics:
     def data_out(self):
         return pd.Series(self.data_dict).to_frame(1).T
 
-    def calc_all_data(self):
-        #Metrics
+    def calc_all_metrics(self):
         self.metric_calc_distance()
         self.metric_calc_pitch_difference()
         self.metric_calc_yaw_difference()
@@ -53,8 +52,6 @@ class Metrics:
 
     def metric_shortest_distance_path(self):
         normal_line = np.cross(self.aircraft_a.direction,self.aircraft_b.direction)
-
         dist = abs(np.dot(normal_line, self.aircraft_a.position-self.aircraft_b.position)) / np.linalg.norm(normal_line)
-
         self.data_dict['shortest_dist_path'] = dist
 

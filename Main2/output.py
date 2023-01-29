@@ -6,8 +6,6 @@ class Output:
         self.Scenario = _Scenario
         self.output_name = ['crashed']
 
-        self.make_crashed_dict()
-
     def make_crashed_dict(self):
         self.crashed_dict = {}
         for id,pair in self.Scenario.aircraft_pair_dict.items():
