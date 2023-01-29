@@ -45,13 +45,12 @@ for scenario_index in range(Parameters.num_scenarios):
             row.update({'crashed':Output.crashed_dict[pair_id]}) 
             data = pd.concat([data,pd.Series(row).to_frame(1).T])
 
-            # pd.Series(self.data_dict).to_frame(1).T
-
 
 print(data.head())
-quit()
+
+#--------------------Plotting Section---------------------------
 import matplotlib.pyplot as plt
-#Setup 3d plotting (not sure if this is best way of doing it)
+#Setup 3d plotting
 ax = plt.figure().add_subplot(projection='3d')
 
 for key,plane in Scenario.aircraft_dict.items():
@@ -64,12 +63,6 @@ for key,plane in Scenario.aircraft_dict.items():
 ax.set_xlabel("x")
 ax.set_ylabel("y")
 ax.set_zlabel("z")
-
-#Bounding plot to grid size set
-#NOTE: planes might disappear off edge
-# ax.set_xlim(0,grid_size)
-# ax.set_ylim(0,grid_size)
-# ax.set_zlim(0,grid_size)
 
 ax.legend()
 plt.show()
@@ -94,11 +87,8 @@ model.fit(X_train,y_train)
 #Predict using the trained model
 y_pred = model.predict(X_test)
 
-#Coefficients of model
+#Output stuff 
 print("Coefficients: \n", model.coef_)
-#The mean squared error for predictions
-# print("Mean squared error: %.2f" % mean_squared_error(y_test,y_pred))
-
 print("Accuracy score: %.2f" % accuracy_score(y_test,y_pred))
 
 print("Classification report: ")
