@@ -52,9 +52,12 @@ class Metrics:
 
     def metric_shortest_distance_path(self):
         normal_line = np.cross(self.aircraft_a.direction,self.aircraft_b.direction)
-        if normal_line != 0:
+        if np.linalg.norm(normal_line) != 0:
             dist = abs(np.dot(normal_line, self.aircraft_a.position-self.aircraft_b.position)) / np.linalg.norm(normal_line)
         else:
-            dist = 0
+            cross_product = np.cross(self.aircraft_a.direction, self.aircraft_b.position - self.aircraft_a.position)
+            magnitude_cross = np.linalg.norm(cross_product)
+            magnitude_a = np.linalg.norm(self.aircraft_a.direction)
+            dist = magnitude_cross/magnitude_a
         self.data_dict['shortest_dist_path'] = dist
 
