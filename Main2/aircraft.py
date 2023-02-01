@@ -6,16 +6,17 @@ class Aircraft:
         self.Parameters = _Parameters
         self.id = _identifier
         # Do we want the co - ords in the init ? Or method for the generation?)
-        self.position = _position #[x,y,z] initial pos
-        self.velocity = _velocity #[x,y,z] intial vel
-        self.direction = _direction #[x,y,z]
-        self.acceleration = _acceleration
+        self.position = _position # initial pos
+        self.velocity = _velocity # intial vel
+        self.acceleration = _acceleration #initial acceleration
+        self.direction = _direction # of expected path
+        self.start_point = _position # of expected path
 
     def get_correction_acceleration(self, current_position):
         #point = np.array(point)
         point = current_position
         #line_point = np.array(line_point)
-        line_point = self.position
+        line_point = self.start_point
 
         #line_direction = np.array(line_direction)
         line_direction = self.direction

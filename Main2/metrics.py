@@ -22,23 +22,28 @@ class Metrics:
         self.metric_shortest_distance_path()
 
     def metric_calc_distance(self):
+        #The distance between the two aircraft's current position at each timestep
         self.data_dict['distance'] = np.linalg.norm(self.aircraft_a.position - self.aircraft_b.position)
 
     def metric_calc_pitch_difference(self):
-        d_a = self.aircraft_a.direction
-        d_b = self.aircraft_b.direction
+        #The difference between the two aircraft's current pitch at each timestep
+        d_a = self.aircraft_a.velocity
+        d_b = self.aircraft_b.velocity
         pitch_a = np.arctan(d_a[2]/(np.sqrt(d_a[0]**2 + d_a[1]**2) ))
         pitch_b = np.arctan(d_b[2]/(np.sqrt(d_b[0]**2 + d_b[1]**2) ))
         self.data_dict['pitch_diff'] = abs(pitch_a - pitch_b)
 
     def metric_calc_yaw_difference(self):
-        d_a = self.aircraft_a.direction
-        d_b = self.aircraft_b.direction
+        #The difference between the two aircraft's current yaw at each timestep
+        d_a = self.aircraft_a.velocity
+        d_b = self.aircraft_b.velocity
         yaw_a = np.arctan(d_a[1]/(np.sqrt(d_a[0]**2 + d_a[2]**2) ))
         yaw_b = np.arctan(d_b[1]/(np.sqrt(d_b[0]**2 + d_b[2]**2) ))
         self.data_dict['yaw_diff'] = abs(yaw_a - yaw_b)
 
     def metric_shortest_distance_timedependent(self):
+        #The shortest distance between the aircraft on their expected paths, considering their relative motion along the paths.
+        #This might change slightly over time, due to the random movement, this is important for short term prediction
         pos_a = np.zeros((self.Parameters.num_t_steps,3))
         pos_b = np.zeros((self.Parameters.num_t_steps,3))
         pos_a[0,:] = self.aircraft_a.position
@@ -51,11 +56,13 @@ class Metrics:
         self.data_dict['shortest_dist_timed'] = dist_between.min()
 
     def metric_shortest_distance_path(self):
+        #The shortest between the two expected paths, without considering the relative motion of the aircraft.
+        #This should remain constant as the paths don't change.
         normal_line = np.cross(self.aircraft_a.direction,self.aircraft_b.direction)
         if np.linalg.norm(normal_line) != 0:
-            dist = abs(np.dot(normal_line, self.aircraft_a.position-self.aircraft_b.position)) / np.linalg.norm(normal_line)
+            dist = abs(np.dot(normal_line, self.aircraft_a.start_point-self.aircraft_b.start_point)) / np.linalg.norm(normal_line)
         else:
-            cross_product = np.cross(self.aircraft_a.direction, self.aircraft_b.position - self.aircraft_a.position)
+            cross_product = np.cross(self.aircraft_a.direction, self.aircraft_b.start_point- self.aircraft_a.start_point)
             magnitude_cross = np.linalg.norm(cross_product)
             magnitude_a = np.linalg.norm(self.aircraft_a.direction)
             dist = magnitude_cross/magnitude_a
