@@ -25,7 +25,7 @@ class Aircraft:
         if np.linalg.norm(shortest_direction) == 0:
             return shortest_direction
         else:
-            return shortest_direction * self.Parameters.correction_mag #/ np.linalg.norm(shortest_direction)
+            return shortest_direction * self.Parameters.correction_mag / np.linalg.norm(shortest_direction)
 
     def make_random_path(self):
         self.random_path_position = np.zeros((self.Parameters.num_t_steps,3))
