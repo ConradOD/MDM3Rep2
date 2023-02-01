@@ -45,7 +45,7 @@ class Aircraft:
     def move_along_path(self,timestep):
         #Set attributes of aircraft according to random path at timestep
         self.position = self.random_path_position[timestep,:]
-        self.velocity = self.random_path_velocity[timestep,:]
+        self.velocity = self.random_path_velocity[timestep,:] 
         self.acceleration = self.random_path_acceleration[timestep,:]
         
     

@@ -22,8 +22,6 @@ for scenario_index in range(Parameters.num_scenarios):
     #Generate scenario object
     Scenario = scenario.Scenario(Parameters)
 
-    #Generate path that planes follow. Do planes follow the random path that's used for the output??
-
     #Generate output labels, for each pair  of planes
     Output = output.Output(Parameters,Scenario)
     Output.make_crashed_dict()
@@ -72,6 +70,10 @@ plt.show()
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report,confusion_matrix,accuracy_score
+
+
+#Deal with imbalanced data
+
 
 #Split the data into test and train sets
 X = data.iloc[:,:-1]
