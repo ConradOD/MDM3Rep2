@@ -8,7 +8,7 @@ class Metrics:
         self.aircraft_a = _aircraft_a
         self.aircraft_b = _aircraft_b
 
-        self.metric_names = ['distance','yaw_diff','pitch_diff','shortest_dist_timed','shortest_dist_path']
+        self.metric_names = ['distance','yaw_diff','pitch_diff','shortest_dist_timed','shortest_dist_path','dist_f_expected_path']
         self.data_dict = {}
 
     def data_out(self):
@@ -20,6 +20,7 @@ class Metrics:
         self.metric_calc_yaw_difference()
         self.metric_shortest_distance_timedependent()
         self.metric_shortest_distance_path()
+        self.metric_distance_from_expected_path()
 
     def metric_calc_distance(self):
         #The distance between the two aircraft's current position at each timestep
@@ -67,4 +68,18 @@ class Metrics:
             magnitude_a = np.linalg.norm(self.aircraft_a.direction)
             dist = magnitude_cross/magnitude_a
         self.data_dict['shortest_dist_path'] = dist
+
+    def metric_distance_from_expected_path(self):
+        #The distance of the aircraft's current position to its initial expected path. This should change each timestep
+        cross_product_a = np.cross(self.aircraft_a.direction, self.aircraft_a.position- self.aircraft_a.start_point)
+        magnitude_cross_a = np.linalg.norm(cross_product_a)
+        magnitude_a = np.linalg.norm(self.aircraft_a.direction)
+        dist_a = np.linalg.norm(magnitude_cross_a/magnitude_a)
+
+        cross_product_b = np.cross(self.aircraft_b.direction, self.aircraft_b.position- self.aircraft_b.start_point)
+        magnitude_cross_b = np.linalg.norm(cross_product_b)
+        magnitude_b = np.linalg.norm(self.aircraft_b.direction)
+        dist_b = np.linalg.norm(magnitude_cross_b/magnitude_b)
+
+        self.data_dict['dist_f_expected_path'] = dist_a + dist_b
 

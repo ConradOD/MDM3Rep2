@@ -45,6 +45,7 @@ for scenario_index in range(Parameters.num_scenarios):
 
 
 print(data.head())
+print(data.dist_f_expected_path.unique())
 
 #--------------------Plotting Section---------------------------
 import matplotlib.pyplot as plt
