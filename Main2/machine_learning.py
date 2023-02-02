@@ -1,7 +1,11 @@
 import pandas as pd
 import numpy as np
+import metrics
 
-
+#Metric names
+sample_metrics = metrics.Metrics(None,None,None)
+metric_names = sample_metrics.metric_names
+print(metric_names)
 #Import dataframe from file
 data = pd.read_pickle('Main2\DataFrame.pkl')
 print(data.head())
@@ -29,7 +33,7 @@ undersampled_df = pd.concat([data_0_undersampled,data_1],axis=0)
 df = undersampled_df
 
 #Split the data into test and train sets
-X = df.iloc[:,:-1]
+X = df.iloc[:,3:-1]
 y = df.iloc[:,-1]
 X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
 
@@ -51,13 +55,6 @@ print(classification_report(y_test,y_pred))
 print("Confusion matrix: ")
 print(confusion_matrix(y_test,y_pred))
 
-print("y_test val counts")
-print(y_test.value_counts())
-
-print("y_pred val counts")
-print(np.unique(y_pred,return_counts=True))
-print(np.unique(y_pred))
-
 #--------------Feature Importance-----------------
 from sklearn.inspection import permutation_importance
 import matplotlib.pyplot as plt
@@ -67,5 +64,6 @@ importance = r.importances_mean
 for i,v in enumerate(importance):
     print('Feature: %0d, Score: %.5f' % (i,v))
 
-plt.bar([x for x in range(len(importance))], importance)
+# plt.bar([x for x in range(len(importance))], importance)
+plt.bar(metric_names, importance)
 plt.show()
