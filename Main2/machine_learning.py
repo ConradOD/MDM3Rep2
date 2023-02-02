@@ -3,7 +3,7 @@ import numpy as np
 
 
 #Import dataframe from file
-data = pd.read_pickle('DataFrame.pkl')
+data = pd.read_pickle('Main2\DataFrame.pkl')
 print(data.head())
 
 
@@ -45,3 +45,15 @@ print(y_test.value_counts())
 print("y_pred val counts")
 print(np.unique(y_pred,return_counts=True))
 print(np.unique(y_pred))
+
+#--------------Feature Importance-----------------
+from sklearn.inspection import permutation_importance
+import matplotlib.pyplot as plt
+
+r = permutation_importance(model, X_test,y_test,scoring='neg_mean_squared_error')
+importance = r.importances_mean
+for i,v in enumerate(importance):
+    print('Feature: %0d, Score: %.5f' % (i,v))
+
+plt.bar([x for x in range(len(importance))], importance)
+plt.show()
