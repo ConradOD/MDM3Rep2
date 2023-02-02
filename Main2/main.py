@@ -14,7 +14,7 @@ separation_threshold = 5 #Needs redoing
 #Initialise dataframe
 sample_metrics = metrics.Metrics(Parameters,None,None)
 sample_output = output.Output(Parameters,None)
-columns = ['scenario_id','pair_id'] + sample_metrics.metric_names + sample_output.output_name
+columns = ['scenario_id','pair_id','timestep_id'] + sample_metrics.metric_names + sample_output.output_name
 data = pd.DataFrame(columns=columns)
 
 #Gather data for each random scenario
@@ -38,7 +38,7 @@ for scenario_index in range(Parameters.num_scenarios):
             Metrics.calc_all_metrics()
 
             #Store row in dataframe
-            row = {'scenario_id':scenario_index,'pair_id':pair_id}
+            row = {'scenario_id':scenario_index,'pair_id':pair_id,'timestep_id':timestep}
             row.update(Metrics.data_dict)
             row.update({'crashed':Output.crashed_dict[pair_id]}) 
             data = pd.concat([data,pd.Series(row).to_frame(1).T])
