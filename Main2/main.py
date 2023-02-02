@@ -27,7 +27,7 @@ for scenario_index in range(Parameters.num_scenarios):
     Output.make_crashed_dict()
 
     #Perform the time evolution
-    for timestep in range(Parameters.num_t_steps):
+    for timestep in range(0,Parameters.num_t_steps,Parameters.t_evo_step_size):
         #Set plane position according to timestep
         Scenario.move_aircraft_along_path(timestep)
 
@@ -45,7 +45,6 @@ for scenario_index in range(Parameters.num_scenarios):
 
 
 print(data.head())
-print(data.dist_f_expected_path.unique())
 
 #Store dataframe in file
 data.to_pickle('DataFrame.pkl')
