@@ -58,8 +58,7 @@ print(confusion_matrix(y_test,y_pred))
 #--------------Feature Importance-----------------
 from sklearn.inspection import permutation_importance
 import matplotlib.pyplot as plt
-
-r = permutation_importance(model, X_test,y_test,scoring='neg_mean_squared_error')
+r = permutation_importance(model, X_test,y_test,n_repeats=30,random_state=0)
 importance = r.importances_mean
 for i,v in enumerate(importance):
     print('Feature: %0d, Score: %.5f' % (i,v))
