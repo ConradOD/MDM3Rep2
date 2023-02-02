@@ -14,11 +14,22 @@ from sklearn.metrics import classification_report,confusion_matrix,accuracy_scor
 
 
 #Deal with imbalanced data
+data_0 = data[data.crashed == 0]
+count_0 = data_0.shape[0]
 
+data_1 = data[data.crashed == 1]
+count_1 = data_1.shape[0]
+
+print('No. not crash: %0d, No. crash: %0d' % (count_0,count_1))
+
+data_0_undersampled = data_0.sample(count_1)
+undersampled_df = pd.concat([data_0_undersampled,data_1],axis=0)
+
+df = undersampled_df
 
 #Split the data into test and train sets
-X = data.iloc[:,:-1]
-y = data.iloc[:,-1]
+X = df.iloc[:,:-1]
+y = df.iloc[:,-1]
 X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
 
 #Initialise model
