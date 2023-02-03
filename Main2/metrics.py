@@ -2,10 +2,15 @@ import numpy as np
 import pandas as pd
 
 class Metrics:
-    def __init__(self,_Parameters, _Data,_aircraft_a,_aircraft_b):
+    def __init__(self,_Parameters,_ids, _Data,_aircraft_a,_aircraft_b):
         #Input data
         self.Parameters = _Parameters
         self.Data = _Data
+
+        self.scenario_id=  _ids[0]
+        self.pair_id = _ids[1]
+        self.timestep_id = _ids[2]
+
         self.aircraft_a = _aircraft_a
         self.aircraft_b = _aircraft_b
 
@@ -83,3 +88,4 @@ class Metrics:
         dist_b = np.linalg.norm(magnitude_cross_b/magnitude_b)
 
         self.data_dict['dist_f_expected_path'] = dist_a + dist_b
+
