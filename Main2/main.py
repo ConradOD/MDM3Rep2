@@ -12,7 +12,7 @@ args = []
 Parameters = parameters.Parameters()
 separation_threshold = 5 #Needs redoing
 #Initialise dataframe
-sample_metrics = metrics.Metrics(Parameters,None,None)
+sample_metrics = metrics.Metrics(Parameters,None,None,None)
 sample_output = output.Output(Parameters,None)
 columns = ['scenario_id','pair_id','timestep_id'] + sample_metrics.metric_names + sample_output.output_name
 data = pd.DataFrame(columns=columns)
@@ -35,7 +35,7 @@ for scenario_index in range(Parameters.num_scenarios):
         for pair_id,pair in Scenario.aircraft_pair_dict.items():
             #Calculate metrics
             ids = [scenario_index,pair_id,timestep]
-            Metrics = metrics.Metrics(Parameters,data,ids,Scenario.aircraft_dict[pair[0]],Scenario.aircraft_dict[pair[1]])
+            Metrics = metrics.Metrics(Parameters,data,Scenario.aircraft_dict[pair[0]],Scenario.aircraft_dict[pair[1]])
             Metrics.calc_all_metrics()
 
             #Store row in dataframe
