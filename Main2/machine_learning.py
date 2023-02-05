@@ -37,6 +37,29 @@ X = df.iloc[:,3:-1]
 y = df.iloc[:,-1]
 X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
 
+#--------------------------- FOR EACH INDIVIDUAL METRIC--------------------------------
+num_metrics = len(metric_names)
+# 
+# print(X_train.loc[:,'distance'])
+
+for metric in metric_names:
+    #Get data corresponding to individual metric
+    metric_X_train = X_train.loc[:,metric].values.reshape(-1,1)
+    metric_X_test = X_test.loc[:,metric].values.reshape(-1,1)
+
+    #Make regression model
+    metric_model = LogisticRegression()
+    metric_model.fit(metric_X_train,y_train)
+
+    #Make predictions on test set
+    metric_y_pred = metric_model.predict(metric_X_test)
+
+    #Output confusion matrix
+    print('Metric: ',metric)
+    print(confusion_matrix(y_test,metric_y_pred))
+
+
+#--------------------------- FOR ALL THE METRICS TOGETHER-------------------------------
 #Initialise model
 model = LogisticRegression()
 
