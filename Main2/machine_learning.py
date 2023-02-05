@@ -39,10 +39,10 @@ X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
 
 #--------------------------- FOR EACH INDIVIDUAL METRIC--------------------------------
 num_metrics = len(metric_names)
-# 
-# print(X_train.loc[:,'distance'])
 
+print(len(metric_names))
 for metric in metric_names:
+
     #Get data corresponding to individual metric
     metric_X_train = X_train.loc[:,metric].values.reshape(-1,1)
     metric_X_test = X_test.loc[:,metric].values.reshape(-1,1)
