@@ -8,6 +8,7 @@ This class, as descirbed by the mindmap has the following properties and methods
 
 Properties / Attributes;
 
+
 Dynamics:
     Current t position
     Approx Velocity, Accelation
