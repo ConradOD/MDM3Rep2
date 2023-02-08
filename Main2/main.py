@@ -35,9 +35,6 @@ for scenario_index in range(Parameters.num_scenarios):
         #Calculate metrics for each pair of planes
         for pair_id,pair in Scenario.aircraft_pair_dict.items():
             #Calculate metrics
-
-            if timestep <= 5:
-                pass
             ids = [scenario_index,pair_id,timestep]
             Metrics = metrics.Metrics(Parameters,data,Scenario.aircraft_dict[pair[0]],Scenario.aircraft_dict[pair[1]],scenario_index,pair_id,timestep)
             Metrics.calc_all_metrics()
