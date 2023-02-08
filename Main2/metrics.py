@@ -14,7 +14,7 @@ class Metrics:
         self.aircraft_a = _aircraft_a
         self.aircraft_b = _aircraft_b
 
-        self.metric_names = ['distance','yaw_diff','pitch_diff','shortest_dist_timed','shortest_dist_path','dist_f_expected_path','ratio_distance']
+        self.metric_names = ['distance','vel_diff','yaw_diff','pitch_diff','shortest_dist_timed','shortest_dist_path','dist_f_expected_path','ratio_distance','ratio_velocity']
         self.data_dict = {}
 
     def data_out(self):
@@ -23,6 +23,7 @@ class Metrics:
     def calc_all_metrics(self):
         #Non historic metrics
         self.metric_calc_distance()
+        self.metric_calc_vel_difference()
         self.metric_calc_pitch_difference()
         self.metric_calc_yaw_difference()
         self.metric_shortest_distance_timedependent()
@@ -30,12 +31,17 @@ class Metrics:
         self.metric_distance_from_expected_path()
 
         #Historic metrics
-        self.metric_ratio_distance()
-        # self.metric_ratio_velocity()
+        if self.timestep_id>=5:
+            self.metric_ratio_distance()
+            self.metric_ratio_velocity()
 
     def metric_calc_distance(self):
         #The distance between the two aircraft's current position at each timestep
         self.data_dict['distance'] = np.linalg.norm(self.aircraft_a.position - self.aircraft_b.position)
+
+    def metric_calc_vel_difference(self):
+        #The abs difference between the velocity of the two aircraft
+        self.data_dict['vel_diff'] = np.linalg.norm(self.aircraft_a.velocity - self.aircraft_b.velocity)
 
     def metric_calc_pitch_difference(self):
         #The difference between the two aircraft's current pitch at each timestep
@@ -95,13 +101,13 @@ class Metrics:
         self.data_dict['dist_f_expected_path'] = dist_a + dist_b
 
     def metric_ratio_distance(self):
-        if self.timestep_id<= 5:
-            return 0
-        else:
-            previous_timestep = self.Data[ (self.Data['scenario_id']==self.scenario_id) & (self.Data['pair_id']==self.pair_id) & (self.Data['timestep_id']==self.timestep_id-self.Parameters.t_evo_step_size) ]
-            # print(previous_timestep.distance.iloc[0])
-            # print(self.data_dict.get('distance'))
-            
-            ratio = self.data_dict['distance'] / previous_timestep.distance.iloc[0]
-            # print(ratio)
-            self.data_dict['ratio_distance'] = ratio
+        #Ratio between the distance between aircraft at current timestep and at the previous timestep
+        previous_timestep = self.Data[ (self.Data['scenario_id']==self.scenario_id) & (self.Data['pair_id']==self.pair_id) & (self.Data['timestep_id']==self.timestep_id-self.Parameters.t_evo_step_size) ]            
+        ratio = self.data_dict['distance'] / previous_timestep.distance.iloc[0]
+        self.data_dict['ratio_distance'] = ratio
+
+    def metric_ratio_velocity(self):
+        #Ratio between the distance between aircraft at current timestep and at the previous timestep
+        previous_timestep = self.Data[ (self.Data['scenario_id']==self.scenario_id) & (self.Data['pair_id']==self.pair_id) & (self.Data['timestep_id']==self.timestep_id-self.Parameters.t_evo_step_size) ]
+        ratio = self.data_dict['vel_diff'] / previous_timestep.vel_diff.iloc[0]
+        self.data_dict['ratio_velocity'] = ratio
