@@ -41,7 +41,8 @@ class Aircraft:
         for t in range(1,self.Parameters.num_t_steps):
             self.random_path_position[t,:] = self.random_path_position[t-1,:] + self.random_path_velocity[t-1,:] * self.Parameters.delta_t + np.random.uniform(-1,1,3)*10
             self.random_path_velocity[t,:] = self.random_path_velocity[t-1,:] + self.random_path_acceleration[t-1,:] * self.Parameters.delta_t
-            self.random_path_acceleration[t,:] = np.random.uniform(-1,1,3) * self.Parameters.acceleration_rand + self.get_correction_acceleration(self.random_path_position[t-1,:])
+            temp_accel =  np.random.uniform(-1,1,3) * self.Parameters.acceleration_rand + self.get_correction_acceleration(self.random_path_position[t-1,:])
+            self.random_path_acceleration[t,:] = temp_accel / np.linalg.norm(temp_accel) * self.Parameters.acceleration_mag
 
     def move_along_path(self,timestep):
         #Set attributes of aircraft according to random path at timestep

@@ -26,7 +26,7 @@ count_1 = data_1.shape[0]
 
 print('No. no crash: %0d, No. crash: %0d' % (count_0,count_1))
 
-#Undersample the majority class (not crashed) so classes are balanced 
+#Undersample the majority class (not crashed) so classes are balanced
 data_0_undersampled = data_0.sample(count_1)
 undersampled_df = pd.concat([data_0_undersampled,data_1],axis=0)
 

@@ -67,6 +67,10 @@ ax.set_ylabel("y")
 ax.set_zlabel("z")
 
 ax.legend()
-plt.show()
+plt.show() 
+
+
+print(data.distance.min())
+
 
 
