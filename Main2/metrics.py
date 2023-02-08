@@ -2,31 +2,36 @@ import numpy as np
 import pandas as pd
 
 class Metrics:
-    def __init__(self,_Parameters, _Data,_aircraft_a,_aircraft_b):
+    def __init__(self,_Parameters, _Data,_aircraft_a,_aircraft_b,_scenario_id,_pair_id,_timestep_id):
         #Input data
         self.Parameters = _Parameters
         self.Data = _Data
 
-        self.scenario_id=  0#_ids[0]
-        self.pair_id = 0#_ids[1]
-        self.timestep_id = 0#_ids[2]
+        self.scenario_id= _scenario_id
+        self.pair_id = _pair_id
+        self.timestep_id = _timestep_id
 
         self.aircraft_a = _aircraft_a
         self.aircraft_b = _aircraft_b
 
-        self.metric_names = ['distance','yaw_diff','pitch_diff','shortest_dist_timed','shortest_dist_path','dist_f_expected_path']
+        self.metric_names = ['distance','yaw_diff','pitch_diff','shortest_dist_timed','shortest_dist_path','dist_f_expected_path','ratio_distance']
         self.data_dict = {}
 
     def data_out(self):
         return pd.Series(self.data_dict).to_frame(1).T
 
     def calc_all_metrics(self):
+        #Non historic metrics
         self.metric_calc_distance()
         self.metric_calc_pitch_difference()
         self.metric_calc_yaw_difference()
         self.metric_shortest_distance_timedependent()
         self.metric_shortest_distance_path()
         self.metric_distance_from_expected_path()
+
+        #Historic metrics
+        self.metric_ratio_distance()
+        # self.metric_ratio_velocity()
 
     def metric_calc_distance(self):
         #The distance between the two aircraft's current position at each timestep
@@ -89,3 +94,14 @@ class Metrics:
 
         self.data_dict['dist_f_expected_path'] = dist_a + dist_b
 
+    def metric_ratio_distance(self):
+        if self.timestep_id<= 5:
+            return 0
+        else:
+            previous_timestep = self.Data[ (self.Data['scenario_id']==self.scenario_id) & (self.Data['pair_id']==self.pair_id) & (self.Data['timestep_id']==self.timestep_id-self.Parameters.t_evo_step_size) ]
+            # print(previous_timestep.distance.iloc[0])
+            # print(self.data_dict.get('distance'))
+            
+            ratio = self.data_dict['distance'] / previous_timestep.distance.iloc[0]
+            # print(ratio)
+            self.data_dict['ratio_distance'] = ratio

@@ -3,7 +3,7 @@ import numpy as np
 import metrics
 
 #Metric names
-sample_metrics = metrics.Metrics(None,None,None,None)
+sample_metrics = metrics.Metrics(None,None,None,None,None,None,None)
 metric_names = sample_metrics.metric_names
 print(metric_names)
 #Import dataframe from file

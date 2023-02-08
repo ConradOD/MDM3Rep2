@@ -11,8 +11,9 @@ import output
 args = []
 Parameters = parameters.Parameters()
 separation_threshold = 5 #Needs redoing
+
 #Initialise dataframe
-sample_metrics = metrics.Metrics(Parameters,None,None,None)
+sample_metrics = metrics.Metrics(Parameters,None,None,None,None,None,None)
 sample_output = output.Output(Parameters,None)
 columns = ['scenario_id','pair_id','timestep_id'] + sample_metrics.metric_names + sample_output.output_name
 data = pd.DataFrame(columns=columns)
@@ -34,8 +35,11 @@ for scenario_index in range(Parameters.num_scenarios):
         #Calculate metrics for each pair of planes
         for pair_id,pair in Scenario.aircraft_pair_dict.items():
             #Calculate metrics
+
+            if timestep <= 5:
+                pass
             ids = [scenario_index,pair_id,timestep]
-            Metrics = metrics.Metrics(Parameters,data,Scenario.aircraft_dict[pair[0]],Scenario.aircraft_dict[pair[1]])
+            Metrics = metrics.Metrics(Parameters,data,Scenario.aircraft_dict[pair[0]],Scenario.aircraft_dict[pair[1]],scenario_index,pair_id,timestep)
             Metrics.calc_all_metrics()
 
             #Store row in dataframe
@@ -43,10 +47,12 @@ for scenario_index in range(Parameters.num_scenarios):
             row.update(Metrics.data_dict)
             row.update({'crashed':Output.crashed_dict[pair_id]}) 
             data = pd.concat([data,pd.Series(row).to_frame(1).T])
-
+    break
+print(data.timestep_id.unique())
+# print(data.drop(data[data.timestep_id<=5].index))
+data = data[data.timestep_id>5]
 
 print(data.head())
-
 #Store dataframe in file
 data.to_pickle('Main2\DataFrame.pkl')
 
@@ -68,9 +74,4 @@ ax.set_zlabel("z")
 
 ax.legend()
 plt.show() 
-
-
-print(data.distance.min())
-
-
 
