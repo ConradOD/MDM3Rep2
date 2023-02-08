@@ -47,9 +47,7 @@ for scenario_index in range(Parameters.num_scenarios):
             row.update(Metrics.data_dict)
             row.update({'crashed':Output.crashed_dict[pair_id]}) 
             data = pd.concat([data,pd.Series(row).to_frame(1).T])
-    break
-print(data.timestep_id.unique())
-# print(data.drop(data[data.timestep_id<=5].index))
+
 data = data[data.timestep_id>5]
 
 print(data.head())
