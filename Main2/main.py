@@ -53,6 +53,8 @@ def scenario_metric_modularity(args, Parameters, separation_threshold):
 
     data = data[data.timestep_id>5]
     return(data)
+    print("Im silly")
+
 
 
 
