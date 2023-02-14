@@ -53,7 +53,7 @@ def scenario_metric_modularity(args, Parameters, separation_threshold):
 
     data = data[data.timestep_id>5]
     return(data)
-    print("Im silly")
+
 
 
 
@@ -63,36 +63,26 @@ def scenario_metric_modularity(args, Parameters, separation_threshold):
 
 #--------------------Repeat Machine Learning w/ Scenario Modularity ---------------------------
 # Number of scenarios / repeats for each model
-number_repeats = 5
-single_metric_nested_list = []
-all_metric_nested_list = []
+number_repeats = 25
+single_metric_dictionary = {}
+all_metric_dictionary = {}
 
 for i in range(number_repeats):
     data_input = scenario_metric_modularity(args, Parameters, separation_threshold)
-    machine_learning_modular(data_input,single_metric_nested_list,all_metric_nested_list)
-    #print(single_metric_nested_list,all_metric_nested_list)
-    print(single_metric_nested_list,all_metric_nested_list)
+    machine_learning_modular(data_input,single_metric_dictionary,all_metric_dictionary, i)
+
+    #print(single_metric_dictionary,all_metric_dictionary)
+
+print(single_metric_dictionary,all_metric_dictionary)
+
+single_metric_series = pd.Series(single_metric_dictionary)
+
+all_metric_series = pd.Series(all_metric_dictionary)
+
+single_metric_series.to_pickle("single_metric.pkl")
+all_metric_series.to_pickle("all_metric.pkl")
 
 
 
 
-
-#--------------------Plotting Section---------------------------
-import matplotlib.pyplot as plt
-#Setup 3d plotting
-ax = plt.figure().add_subplot(projection='3d')
-
-for key,plane in Scenario.aircraft_dict.items():
-    pos = plane.random_path_position
-    #For each plane plots line of trajectory
-    ax.plot(pos[:,0],pos[:,1],pos[:,2],label="Plane {id}".format(id = plane.id))
-    #Dot for start pos
-    ax.scatter(pos[0,0],pos[0,1],pos[0,2])
-
-ax.set_xlabel("x")
-ax.set_ylabel("y")
-ax.set_zlabel("z")
-
-ax.legend()
-plt.show() 
 

@@ -67,7 +67,7 @@ def machine_learning_modular(data,single_metric_dictionary,all_metric_dictionary
 
         #print('Metric: ',metric)
         #print(conf_matrix)
-        metric_identifier = metric.names[metric]+str(cycle_number)
+        metric_identifier = metric+str(cycle_number)
 
         single_metric_dictionary[metric_identifier] = [single_metric_f1_score,acc_score_single]
 
@@ -86,7 +86,7 @@ def machine_learning_modular(data,single_metric_dictionary,all_metric_dictionary
     f1_score_combined = f1_score(y_test,y_pred)
 
     all_metric_identifier = "Combined_" + str(cycle_number)
-    all_metric_dictionary.append([all_metric_identifier,f1_score_combined, acc_score_all])
+    all_metric_dictionary[all_metric_identifier] = [f1_score_combined, acc_score_all]
 
 
     #Output stuff
