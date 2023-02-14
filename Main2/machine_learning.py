@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 import metrics
+from sklearn.inspection import permutation_importance
+
 
 #Metric names
 sample_metrics = metrics.Metrics(None,None,None,None,None,None,None)
@@ -14,7 +17,7 @@ print(data.head())
 #------------------Machine learning section-----------------------
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report,confusion_matrix,accuracy_score
+from sklearn.metrics import classification_report,confusion_matrix,accuracy_score,f1_score
 
 
 #Deal with imbalanced data
@@ -27,7 +30,7 @@ count_1 = data_1.shape[0]
 print('No. no crash: %0d, No. crash: %0d' % (count_0,count_1))
 
 #Undersample the majority class (not crashed) so classes are balanced
-data_0_undersampled = data_0.sample(count_1)
+data_0_undersampled = data_0.sample(count_1,random_state=0)
 undersampled_df = pd.concat([data_0_undersampled,data_1],axis=0)
 
 df = undersampled_df
@@ -35,10 +38,14 @@ df = undersampled_df
 #Split the data into test and train sets
 X = df.iloc[:,3:-1]
 y = df.iloc[:,-1]
-X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
+
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=0)
 
 #--------------------------- FOR EACH INDIVIDUAL METRIC--------------------------------
 num_metrics = len(metric_names)
+
+f1_score_dict = {}
+accuracy_dict = {}
 
 print(len(metric_names))
 for metric in metric_names:
@@ -58,6 +65,11 @@ for metric in metric_names:
     print('Metric: ',metric)
     print(confusion_matrix(y_test,metric_y_pred))
 
+    #Save f1_score to dictionary
+    f1_score_dict[metric] = f1_score(y_test,metric_y_pred)
+
+    #Save accuracry to dictionary
+    accuracy_dict[metric] = accuracy_score(y_test,metric_y_pred)
 
 #--------------------------- FOR ALL THE METRICS TOGETHER-------------------------------
 #Initialise model
@@ -78,9 +90,56 @@ print(classification_report(y_test,y_pred))
 print("Confusion matrix: ")
 print(confusion_matrix(y_test,y_pred))
 
+f1_score_dict['combined'] = f1_score(y_test,y_pred)
+accuracy_dict['combined'] = accuracy_score(y_test,y_pred)
+
+#--------------------OUTPUT STUFF---------------------
+
+#Plot bar chart of f1_scores
+bar_names = metric_names
+bar_names.append('combined')
+
+f1_vals = list(f1_score_dict.values())
+plt.figure()
+plt.xticks(rotation=15, ha='right')
+plt.bar(range(len(f1_score_dict)),f1_vals,tick_label=bar_names)
+plt.xlabel('Model name')
+plt.ylabel('F1 score')
+plt.title('F1 scores of different regression models')
+plt.tight_layout()
+plt.savefig('Results\\f1_scores.pdf')
+plt.show()
+
+
+accuracy_vals = list(accuracy_dict.values())
+plt.figure()
+plt.xticks(rotation=15, ha='right')
+plt.bar(range(len(accuracy_dict)),accuracy_vals,tick_label=bar_names)
+plt.xlabel('Model name')
+plt.ylabel('Accuracy score')
+plt.title('Accuracy scores of different regression models')
+plt.tight_layout()
+plt.savefig('Results\\accuracy_scores.pdf')
+plt.show()
+
+acc_array = np.array(accuracy_vals)
+f1_array = np.array(f1_vals)
+print("F1")
+print(f1_score_dict)
+
+print("Accuracy")
+print(accuracy_dict)
+
+print("Mean accuray score: ", np.mean(acc_array))
+print("Minimum accuray score: ", np.min(acc_array))
+print("Maximum accuracy score: ", np.max(acc_array))
+
+print("Mean F1 score: ", np.mean(f1_array))
+print("Minimum F1 score: ", np.min(f1_array))
+print("Maximum F1 score: ", np.max(f1_array))
+
 #--------------Feature Importance-----------------
-from sklearn.inspection import permutation_importance
-import matplotlib.pyplot as plt
+quit()
 r = permutation_importance(model, X_test,y_test,n_repeats=30,random_state=0)
 importance = r.importances_mean
 for i,v in enumerate(importance):
