@@ -69,7 +69,7 @@ for i in range(number_repeats):
     data_input = scenario_metric_modularity(args, Parameters, separation_threshold)
     machine_learning_modular(data_input,single_metric_nested_list,all_metric_nested_list)
     #print(single_metric_nested_list,all_metric_nested_list)
-print(single_metric_nested_list,all_metric_nested_list)
+    print(single_metric_nested_list,all_metric_nested_list)
 
 
 
