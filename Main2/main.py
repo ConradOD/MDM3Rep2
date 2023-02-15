@@ -68,6 +68,7 @@ single_metric_dictionary = {}
 all_metric_dictionary = {}
 
 for i in range(number_repeats):
+    print(i)
     data_input = scenario_metric_modularity(args, Parameters, separation_threshold)
     machine_learning_modular(data_input,single_metric_dictionary,all_metric_dictionary, i)
 
@@ -79,8 +80,8 @@ single_metric_series = pd.Series(single_metric_dictionary)
 
 all_metric_series = pd.Series(all_metric_dictionary)
 
-single_metric_series.to_pickle("single_metric.pkl")
-all_metric_series.to_pickle("all_metric.pkl")
+single_metric_series.to_pickle("single_metric2.pkl")
+all_metric_series.to_pickle("all_metric2.pkl")
 
 
 
