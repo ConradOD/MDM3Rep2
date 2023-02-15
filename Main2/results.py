@@ -35,6 +35,7 @@ def unpack_to_df(single_metrics_df,all_metrics_df,offset):
 df1 = unpack_to_df(single_metric1,all_metric1,0)
 df2 = unpack_to_df(single_metric2,all_metric2,25)
 
+
 #Combine outputs
 all_df = pd.concat([df1,df2])
 # print(all_df)
@@ -46,18 +47,28 @@ def turn_column_into_2arrays(df,column_name):
     accuracy_array = np.zeros(num_rows)
     f1_array = np.zeros(num_rows)
 
+    i=0
     for index,val in column.items():
-        f1_array[index] = val[0]
-        accuracy_array[index] = val[1]
-
+        f1_array[i] = val[0]
+        accuracy_array[i] = val[1]
+        i+=1
     return [f1_array,accuracy_array]
 
 
 [test1,test2] = turn_column_into_2arrays(all_df,'combined')
 
-plt.hist(test1)
-plt.show()
+bar_names = column_names
+bar_names.remove('repeat')
 
+arrays = {}
+for name in bar_names:
+    [f1,acc] = turn_column_into_2arrays(all_df,name)
+    f1_name = name+'_f1'
+    acc_name = name + '_acc'
+    arrays[f1_name] = f1
+    arrays[acc_name] = acc
+
+print(arrays)
 
 
 
