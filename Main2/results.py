@@ -1,4 +1,4 @@
-
+import numpy as np
 import pandas as pd
 
 #Read pkl files
@@ -36,7 +36,23 @@ df2 = unpack_to_df(single_metric2,all_metric2,25)
 
 #Combine outputs
 all_df = pd.concat([df1,df2])
-print(all_df)
+# print(all_df)
+
+#Turn df into arrays foor f1 & acc
+def turn_column_into_2arrays(df,column_name):
+    column = df.loc[:,column_name]
+    num_rows = column.size
+    accuracy_array = np.zeros(num_rows)
+    f1_array = np.zeros(num_rows)
+
+    for index,val in column.items():
+        f1_array[index] = val[0]
+        accuracy_array[index] = val[1]
+
+    return [f1_array,accuracy_array]
+
+
+[test1,test2] = turn_column_into_2arrays(all_df,'combined')
 
 
 
