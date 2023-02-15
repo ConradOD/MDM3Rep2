@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 #Read pkl files
 single_metric1 = pd.read_pickle('Main2\\single_metric.pkl')
@@ -54,6 +55,8 @@ def turn_column_into_2arrays(df,column_name):
 
 [test1,test2] = turn_column_into_2arrays(all_df,'combined')
 
+plt.hist(test1)
+plt.show()
 
 
 
