@@ -24,7 +24,7 @@ import pandas as pd
 
 x = pd.read_pickle("all_metric.pkl")
 y = pd.read_pickle("single_metric.pkl")
-
+print(y)
 
 
 
