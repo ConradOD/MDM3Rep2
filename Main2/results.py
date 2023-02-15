@@ -14,18 +14,30 @@ print(all_metric2.head())
 #Vars to use for unpacking
 num_repeats = 25
 metric_names = ['distance','vel_diff','yaw_diff','pitch_diff','shortest_dist_timed','shortest_dist_path','dist_f_expected_path','ratio_distance','ratio_velocity']
-combined_name = ['Combined']
+combined_name = ['combined']
 column_names = ['repeat'] + metric_names + combined_name
   
 
 #Setup df
-df = 
+
 
 #Extract individually
-for repeat in range(num_repeats):
-    #Make row of all the metric and then 
+def unpack_to_df(single_metrics_df,all_metrics_df,offset):
+    df = pd.DataFrame(columns= column_names)
+    for repeat in range(num_repeats):
+        df_index = repeat + offset
+        row = {'repeat':df_index}
+        for metric_name in metric_names:
+            key_search = metric_name + str(repeat)
+            row[metric_name] = single_metrics_df.loc[key_search]
+        row['combined'] = all_metrics_df.loc['Combined_'+str(repeat)]
+        df = pd.concat([df,pd.Series(row).to_frame(1).T])
+    
+    return df
 
-
+df1 = unpack_to_df(single_metric2,all_metric2,0)
+print(df1)
+        
 #Gonna need to shift one set of files by 25
 #Ie repeats 0 becomes repeat 25
 
