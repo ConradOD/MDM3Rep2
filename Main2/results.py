@@ -71,7 +71,26 @@ for name in bar_names:
 print(arrays)
 
 
+def plot_hist(ax,array,title,xlabel):
+    
+    ax.set_title(title)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel('Frequency')
+    # ax.tight_layout()
+    ax = plt.hist(array,bins=10)
+    return ax
 
+
+ax1 = plt.subplot(1,2,1)
+ax1 = plot_hist(ax1, arrays['combined_f1'],'Combined F1','F1 score')
+
+ax2 = plt.subplot(1,2,2)
+ax2 = plot_hist(ax2, arrays['combined_acc'],'Combined Acc','Accuracy score')
+
+
+plt.tight_layout(pad=3.0)
+plt.savefig('Results\\combined_histogram.pdf')
+plt.show()
 
 
 '''
