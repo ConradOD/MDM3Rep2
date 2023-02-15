@@ -90,17 +90,31 @@ def plot_hist(ax,array,title,xlabel):
     return ax
 
 
+
+
 ax1 = plt.subplot(1,2,1)
-ax1 = plot_hist(ax1, f1_score_dict['combined_f1'],'Combined F1','F1 score')
+ax1 = plot_hist(ax1,acc_score_dict['vel_diff_acc'],'Velocity Difference Accuracy Score Histogram','Accuracy score')
 
 ax2 = plt.subplot(1,2,2)
-ax2 = plot_hist(ax2, acc_score_dict['combined_acc'],'Combined Acc','Accuracy score')
+ax2 = plot_hist(ax2, acc_score_dict['combined_acc'],'Accuracy Score Histogram','Accuracy score')
 
 
 plt.tight_layout(pad=3.0)
-plt.savefig('Results\\combined_histogram.pdf')
+# plt.savefig('Results\\acc_histogram.pdf')
 # plt.show()
 
+# ax3 = plt.subplot(1,2,1)
+# ax3 = plot_hist(ax3,f1_score_dict['vel_diff_f1'],'Velocity Difference F1 Score Histogram','F1 score')
+ax1.plot_hist(f1_score_dict['vel_diff_f1'],bins=10)
+ax2.plot_hist(f1_score_dict['combined_f1'],bins=10)
+
+# ax1 = plt.subplot(1,2,2)
+# ax1 = plot_hist(ax1, f1_score_dict['combined_f1'],'F1 Score Histogram','F1 score')
+
+plt.tight_layout(pad=3.0)
+# plt.savefig('Results\\f1_histogram.pdf')
+plt.savefig('Results\\combined _all_histogram.pdf')
+plt.show()
 
 '''
 #--------------------Plotting Section---------------------------
@@ -158,7 +172,7 @@ def plot_violin( zero_or_one, data_frame_input, model_names):
     fig = plt.figure()
 
     ax = fig.subplots(1,1)
-    bp = ax.violinplot(data_to_plot)
+    bp = ax.boxplot(data_to_plot)
 
     plt.show()
 
