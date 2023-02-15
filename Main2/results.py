@@ -4,15 +4,17 @@ import matplotlib.pyplot as plt
 
 #Read pkl files
 #LAWRENCE VERSION
+'''
 single_metric1 = pd.read_pickle('Main2\\single_metric.pkl')
 single_metric2 = pd.read_pickle('Main2\\single_metric2.pkl')
 all_metric1 = pd.read_pickle('Main2\\all_metric.pkl')
 all_metric2 = pd.read_pickle('Main2\\all_metric2.pkl')
+'''
 #CONRAD'S FILE VERISON
-# single_metric1 = pd.read_pickle('single_metric.pkl')
-# single_metric2 = pd.read_pickle('single_metric2.pkl')
-# all_metric1 = pd.read_pickle('all_metric.pkl')
-# all_metric2 = pd.read_pickle('all_metric2.pkl')
+single_metric1 = pd.read_pickle('single_metric.pkl')
+single_metric2 = pd.read_pickle('single_metric2.pkl')
+all_metric1 = pd.read_pickle('all_metric.pkl')
+all_metric2 = pd.read_pickle('all_metric2.pkl')
 
 # print(single_metric1.head())
 # print(all_metric1.head())
@@ -142,7 +144,7 @@ plt.show()
 
 
 
-def plot_violin( zero_or_one, data_frame_input, model_names):
+def plot_violin(zero_or_one, data_frame_input, model_names):
     #zero = f1 score , one = accuracy score
     # Data frame is the data to be used in the array extracting functions
     f1_score_dict = {}
@@ -162,18 +164,24 @@ def plot_violin( zero_or_one, data_frame_input, model_names):
         for key,value in f1_score_dict.items():
             name_order.append(key)
             data_to_plot.append(value)
+        title_label = "Box plot to show the F1 Score Performance of Each Model"
 
 
     elif zero_or_one == 1 :
         for key, value in acc_score_dict.items():
             name_order.append(key)
             data_to_plot.append(value)
+        title_label = "Box plot to show the Accuracy Score Performance of Each Model"
 
     fig = plt.figure()
 
     ax = fig.subplots(1,1)
     bp = ax.boxplot(data_to_plot)
+    plt.title(title_label)
+    plt.xticks([1, 2, 3,4,5,6,7,8,9,10], model_names, rotation = 30, ha="right")
 
+    fig.tight_layout()
+    plt.grid()
     plt.show()
 
 plot_violin( 1, all_df, model_names)
