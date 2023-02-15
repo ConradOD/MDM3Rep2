@@ -2,14 +2,13 @@
 import pandas as pd
 
 #Read pkl files
-#single_metric1 = 
-single_metric2 = pd.read_pickle("single_metric2.pkl")
-#all_metric1 = 
-all_metric2 = pd.read_pickle("all_metric2.pkl")
+single_metric1 = pd.read_pickle('Main2\\single_metric.pkl')
+single_metric2 = pd.read_pickle('Main2\\single_metric2.pkl')
+all_metric1 = pd.read_pickle('Main2\\all_metric.pkl')
+all_metric2 = pd.read_pickle('Main2\\all_metric2.pkl')
 
-
-print(single_metric2.head())
-print(all_metric2.head())
+# print(single_metric1.head())
+# print(all_metric1.head())
 
 #Vars to use for unpacking
 num_repeats = 25
@@ -18,10 +17,7 @@ combined_name = ['combined']
 column_names = ['repeat'] + metric_names + combined_name
   
 
-#Setup df
-
-
-#Extract individually
+#Function for unpacking
 def unpack_to_df(single_metrics_df,all_metrics_df,offset):
     df = pd.DataFrame(columns= column_names)
     for repeat in range(num_repeats):
@@ -32,16 +28,15 @@ def unpack_to_df(single_metrics_df,all_metrics_df,offset):
             row[metric_name] = single_metrics_df.loc[key_search]
         row['combined'] = all_metrics_df.loc['Combined_'+str(repeat)]
         df = pd.concat([df,pd.Series(row).to_frame(1).T])
-    
     return df
 
-df1 = unpack_to_df(single_metric2,all_metric2,0)
-print(df1)
-        
-#Gonna need to shift one set of files by 25
-#Ie repeats 0 becomes repeat 25
+#Call function on each set of data
+df1 = unpack_to_df(single_metric1,all_metric1,0)
+df2 = unpack_to_df(single_metric2,all_metric2,25)
 
-#Combine 
+#Combine outputs
+all_df = pd.concat([df1,df2])
+print(all_df)
 
 
 
