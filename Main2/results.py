@@ -4,17 +4,17 @@ import matplotlib.pyplot as plt
 
 #Read pkl files
 #LAWRENCE VERSION
-'''
+
 single_metric1 = pd.read_pickle('Main2\\single_metric.pkl')
 single_metric2 = pd.read_pickle('Main2\\single_metric2.pkl')
 all_metric1 = pd.read_pickle('Main2\\all_metric.pkl')
 all_metric2 = pd.read_pickle('Main2\\all_metric2.pkl')
-'''
+
 #CONRAD'S FILE VERISON
-single_metric1 = pd.read_pickle('single_metric.pkl')
-single_metric2 = pd.read_pickle('single_metric2.pkl')
-all_metric1 = pd.read_pickle('all_metric.pkl')
-all_metric2 = pd.read_pickle('all_metric2.pkl')
+# single_metric1 = pd.read_pickle('single_metric.pkl')
+# single_metric2 = pd.read_pickle('single_metric2.pkl')
+# all_metric1 = pd.read_pickle('all_metric.pkl')
+# all_metric2 = pd.read_pickle('all_metric2.pkl')
 
 # print(single_metric1.head())
 # print(all_metric1.head())
@@ -94,26 +94,26 @@ def plot_hist(ax,array,title,xlabel):
 
 
 
-ax1 = plt.subplot(1,2,1)
-ax1 = plot_hist(ax1,acc_score_dict['vel_diff_acc'],'Velocity Difference Accuracy Score Histogram','Accuracy score')
+ax1 = plt.subplot(2,2,1)
+ax1 = plot_hist(ax1,acc_score_dict['vel_diff_acc'],'Velocity Difference Accuracy Score','Accuracy score')
 
-ax2 = plt.subplot(1,2,2)
-ax2 = plot_hist(ax2, acc_score_dict['combined_acc'],'Accuracy Score Histogram','Accuracy score')
+ax2 = plt.subplot(2,2,2)
+ax2 = plot_hist(ax2, acc_score_dict['combined_acc'],'Combined Accuracy Score','Accuracy score')
 
 
-plt.tight_layout(pad=3.0)
+# plt.tight_layout(pad=3.0)
 # plt.savefig('Results\\acc_histogram.pdf')
 # plt.show()
 
-# ax3 = plt.subplot(1,2,1)
-# ax3 = plot_hist(ax3,f1_score_dict['vel_diff_f1'],'Velocity Difference F1 Score Histogram','F1 score')
-ax1.plot_hist(f1_score_dict['vel_diff_f1'],bins=10)
-ax2.plot_hist(f1_score_dict['combined_f1'],bins=10)
+ax3 = plt.subplot(2,2,3)
+ax3 = plot_hist(ax3,f1_score_dict['vel_diff_f1'],'Velocity Difference F1 Score','F1 score')
+# ax1.plot_hist(f1_score_dict['vel_diff_f1'],bins=10)
+# ax2.plot_hist(f1_score_dict['combined_f1'],bins=10)
 
-# ax1 = plt.subplot(1,2,2)
-# ax1 = plot_hist(ax1, f1_score_dict['combined_f1'],'F1 Score Histogram','F1 score')
+ax4 = plt.subplot(2,2,4)
+ax4 = plot_hist(ax4, f1_score_dict['combined_f1'],'Combined F1 Score','F1 score')
 
-plt.tight_layout(pad=3.0)
+plt.tight_layout()
 # plt.savefig('Results\\f1_histogram.pdf')
 plt.savefig('Results\\combined _all_histogram.pdf')
 plt.show()
